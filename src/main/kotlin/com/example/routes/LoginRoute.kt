@@ -50,6 +50,6 @@ fun validarCredencialesProfesor(correo: String, contrasenya: String): Boolean {
 
         val profesor = Alumnos.select { Profesores.correo eq correo }.singleOrNull() ?: return@transaction false
 
-        return@transaction profesor[Alumnos.contrasenya] == contrasenya
+        return@transaction profesor[Profesores.contrasenya] == contrasenya
     }
 }
