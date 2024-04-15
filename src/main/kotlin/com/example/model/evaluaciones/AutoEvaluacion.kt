@@ -9,6 +9,12 @@ data class AutoEvaluacion(
     val fechaEva: java.util.Date,
     val puntuacion: Int,
     val comentarios: String,
+//    val idcomp1: Int,
+//    val punt1: Int,
+//    val idcomp2: Int,
+//    val punt2: Int,
+//    val idcomp3: Int,
+//    val punt3: Int,
 )
 
 object AutoEvaluaciones: Table("autoevaluacion"){
