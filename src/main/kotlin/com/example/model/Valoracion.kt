@@ -1,6 +1,5 @@
 package com.example.model
 
-import com.example.model.EvaluacionesProfesor.references
 import org.jetbrains.exposed.sql.Table
 
 data class Valoracion(

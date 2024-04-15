@@ -1,9 +1,9 @@
 package com.example.routes
 
-import com.example.model.Alumno
-import com.example.model.Alumnos
-import com.example.model.Profesor
-import com.example.model.Profesores
+import com.example.model.usuarios.Alumno
+import com.example.model.usuarios.Alumnos
+import com.example.model.usuarios.Profesor
+import com.example.model.usuarios.Profesores
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

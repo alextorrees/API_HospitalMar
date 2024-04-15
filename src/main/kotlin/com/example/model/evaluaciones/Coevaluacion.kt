@@ -1,7 +1,6 @@
-package com.example.model
+package com.example.model.evaluaciones
 
-import com.example.model.AutoEvaluaciones.autoIncrement
-import com.example.model.EvaluacionesProfesor.references
+import com.example.model.usuarios.Alumnos
 import org.jetbrains.exposed.sql.Table
 import java.sql.Date
 

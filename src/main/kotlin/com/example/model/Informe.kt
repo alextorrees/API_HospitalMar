@@ -1,6 +1,9 @@
 package com.example.model
 
-import io.ktor.http.*
+import com.example.model.evaluaciones.AutoEvaluaciones
+import com.example.model.evaluaciones.Coevaluaciones
+import com.example.model.evaluaciones.EvaluacionesProfesor
+import com.example.model.usuarios.Alumnos
 import org.jetbrains.exposed.sql.Table
 import java.util.Date
 

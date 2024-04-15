@@ -1,6 +1,5 @@
-package com.example.model
+package com.example.model.usuarios
 
-import com.example.model.Alumnos.autoIncrement
 import org.jetbrains.exposed.sql.Table
 
 data class Profesor (

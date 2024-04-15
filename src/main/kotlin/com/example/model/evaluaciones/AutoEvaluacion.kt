@@ -1,13 +1,12 @@
-package com.example.model
+package com.example.model.evaluaciones
 
-import com.example.model.EvaluacionesProfesor.references
+import com.example.model.usuarios.Alumnos
 import org.jetbrains.exposed.sql.Table
-import java.sql.Date
 
 data class AutoEvaluacion(
     val idAutoEvaluacion: Int,
     val idAlumno: Int,
-    val fechaEva: Date,
+    val fechaEva: java.util.Date,
     val puntuacion: Int,
     val comentarios: String,
 )

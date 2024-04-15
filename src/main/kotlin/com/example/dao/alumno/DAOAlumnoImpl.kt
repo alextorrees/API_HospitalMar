@@ -1,15 +1,15 @@
-package com.example.dao
+package com.example.dao.alumno
 
 import com.example.dao.DataBaseConnection.dbQuery
-import com.example.model.Alumno
-import com.example.model.Alumnos
+import com.example.model.usuarios.Alumno
+import com.example.model.usuarios.Alumnos
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.update
 import java.security.MessageDigest
 
-class DaoAlumnoImpl: DAOAlumno {
+class DAOAlumnoImpl: DAOAlumno {
     private fun resultToRowAlumno (row: ResultRow) = Alumno(
         idAlumno = row[Alumnos.idAlumno],
         nombre = row[Alumnos.nombre],
@@ -24,7 +24,7 @@ class DaoAlumnoImpl: DAOAlumno {
         idProfesor = row[Alumnos.idProfesor]
     )
 
-    override suspend fun añadirNuevoAlumno(nombre: String, apellido1: String, apellido2: String, dni: String, correo: String, identificador: String, codCiclo: Int): Alumno? = dbQuery {
+    override suspend fun anadirNuevoAlumno(nombre: String, apellido1: String, apellido2: String, dni: String, correo: String, identificador: String, codCiclo: Int): Alumno? = dbQuery {
         val insertStatement = Alumnos.insert {
             it[Alumnos.nombre] = nombre
             it[Alumnos.apellido1] = apellido1
@@ -55,4 +55,4 @@ class DaoAlumnoImpl: DAOAlumno {
     }
 }
 
-val daoAlumno: DAOAlumno = DaoAlumnoImpl().apply{}
+val daoAlumno: DAOAlumno = DAOAlumnoImpl().apply{}

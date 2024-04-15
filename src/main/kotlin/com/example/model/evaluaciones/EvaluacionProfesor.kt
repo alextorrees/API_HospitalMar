@@ -1,8 +1,8 @@
-package com.example.model
+package com.example.model.evaluaciones
 
-import com.example.model.EvaluacionesProfesor.references
+import com.example.model.usuarios.Alumnos
+import java.util.Date
 import org.jetbrains.exposed.sql.Table
-import java.sql.Date
 
 data class EvaluacionProfesor(
     val idEvaluacionProfesor: Int,
