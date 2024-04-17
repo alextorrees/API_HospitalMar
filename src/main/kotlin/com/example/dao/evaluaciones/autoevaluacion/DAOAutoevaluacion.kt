@@ -1,4 +1,4 @@
-package com.example.dao.autoevaluacion
+package com.example.dao.evaluaciones.autoevaluacion
 
 interface DAOAutoevaluacion {
 
