@@ -8,7 +8,7 @@ data class EvaluacionProfesor(
     val idEvaluacionProfesor: Int,
     val idAlumno: Int,
     val idProfesor: Int,
-    val fechaEva: Date,
+    val fechaEva: java.util.Date,
     val puntuacion: Int,
     val comentarios: String,
 )
