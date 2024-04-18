@@ -9,6 +9,7 @@ data class Modulo(
     val grup: Int,
     val numModulo: Int,
     val nombreModul: String
+    //TODO (NO HACE FALTA METER LAS COMPETENCIAS QUE TIENE CADA CICLO?)
 )
 
 

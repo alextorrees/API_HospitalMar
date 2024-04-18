@@ -9,6 +9,7 @@ data class Competencia(
     val pregunta2: String,
     val pregunta3: String,
     val pregunta4: String,
+    //TODO(AQUI NO HACE FALTA METER IDMODULO? )
 )
 
 object Competencias: Table("competencia"){
