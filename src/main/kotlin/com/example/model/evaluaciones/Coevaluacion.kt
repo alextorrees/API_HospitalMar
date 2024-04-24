@@ -9,7 +9,7 @@ data class Coevaluacion(
     val idCoevaluador: Int,
     val fechaEva: java.util.Date,
     val puntuacion: Int,
-    val comentarios: String,
+    val comentarios: String
 )
 
 object Coevaluaciones: Table("coevaluacion"){

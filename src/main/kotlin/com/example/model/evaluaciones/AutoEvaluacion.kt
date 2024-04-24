@@ -8,7 +8,7 @@ data class AutoEvaluacion(
     val idAlumno: Int,
     val fechaEva: java.util.Date,
     val puntuacion: Int,
-    val comentarios: String,
+    val comentarios: String
     //TODO(PREGUNTAR MAXIMO COMPETENCIAS)
 //    val idcomp1: Int,
 //    val punt1: Int,

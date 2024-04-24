@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import java.text.SimpleDateFormat
 
 class DAOCoevaluacionImpl: DAOCoevaluacion {
-    private fun resultToRowCoevaluacion (row: ResultRow): Coevaluacion {
+    fun resultToRowCoevaluacion (row: ResultRow): Coevaluacion {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd") // ajusta el formato según cómo se almacenen las fechas en la base de datos
         val fechaEvaString = row[Coevaluaciones.fechaEva]
         val fechaEva = dateFormat.parse(fechaEvaString)

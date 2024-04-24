@@ -4,13 +4,14 @@ import org.jetbrains.exposed.sql.Table
 
 data class Profesor (
     val idPorfesor: Int,
-    val contrasenya: String,
-    val identificador: Int,
-    val correo: String,
     val nombre: String,
     val apellido1: String,
     val apellido2: String,
     val dni: String,
+    val correo: String,
+    val identificador: String,
+    val contrasenya: String,
+    val tutor: Boolean,
     val admin: Boolean
 )
 

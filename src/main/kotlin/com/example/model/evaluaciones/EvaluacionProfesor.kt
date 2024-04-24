@@ -10,7 +10,7 @@ data class EvaluacionProfesor(
     val idProfesor: Int,
     val fechaEva: java.util.Date,
     val puntuacion: Int,
-    val comentarios: String,
+    val comentarios: String
 )
 
 object EvaluacionesProfesor: Table("evaluacionprofesor"){

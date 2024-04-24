@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.insert
 import java.text.SimpleDateFormat
 
 class DAOAutoevaluacionImpl: DAOAutoevaluacion {
-    private fun resultToRowAutoevaluacion(row: ResultRow): AutoEvaluacion {
+    fun resultToRowAutoevaluacion(row: ResultRow): AutoEvaluacion {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd") // ajusta el formato según cómo se almacenen las fechas en la base de datos
         val fechaEvaString = row[AutoEvaluaciones.fechaEva]
         val fechaEva = dateFormat.parse(fechaEvaString)

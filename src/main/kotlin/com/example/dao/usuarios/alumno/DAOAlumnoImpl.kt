@@ -1,12 +1,18 @@
 package com.example.dao.usuarios.alumno
 
 import com.example.dao.DataBaseConnection.dbQuery
+import com.example.model.Competencias
+import com.example.model.Modulos
+import com.example.model.Valoraciones
 import com.example.model.evaluaciones.*
 import com.example.model.usuarios.Alumno
 import com.example.model.usuarios.Alumnos
+import com.example.routes.validarCredencialesAlumno
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
+import kotlin.reflect.jvm.internal.ReflectProperties.Val
 
 
 class DAOAlumnoImpl: DAOAlumno {
@@ -27,6 +33,7 @@ class DAOAlumnoImpl: DAOAlumno {
     override suspend fun allAlumno(): List<Alumno> = dbQuery {
         Alumnos.selectAll().map(::resultToRowAlumno)
     }
+
 
     override suspend fun alumno(idAlumno: Int): Alumno? = dbQuery{
         Alumnos.select{Alumnos.idAlumno eq idAlumno}.map(::resultToRowAlumno).singleOrNull()
@@ -59,6 +66,7 @@ class DAOAlumnoImpl: DAOAlumno {
         val hashedBytes = digest.digest(bytes)
         return hashedBytes.joinToString("") { "%02x".format(it) }
     }
+
     override suspend fun updateContrasenya(idAlumno: Int, contrasenya: String): Boolean = dbQuery {
         val contrasenyaEncriptada = hashPassword(contrasenya) // Encriptar la nueva contraseña
         Alumnos.update({ Alumnos.idAlumno eq idAlumno }) {
@@ -70,69 +78,78 @@ class DAOAlumnoImpl: DAOAlumno {
         Alumnos.deleteWhere { Alumnos.idAlumno eq idAlumno } < 0
     }
 
-    override suspend fun selectEvaluacionesPorAlumno(idAlumno: Int): List<EvaluacionAlumno> {
-        return dbQuery {
-            (AutoEvaluaciones innerJoin Coevaluaciones innerJoin EvaluacionesProfesor).slice(
-                AutoEvaluaciones.idAutoEvaluacion,
-                AutoEvaluaciones.idAlumno,
-                AutoEvaluaciones.fechaEva,
-                AutoEvaluaciones.puntuacion,
-                AutoEvaluaciones.comentarios,
-                Coevaluaciones.idCoevaluacion,
-                Coevaluaciones.idCoevaluador,
-                Coevaluaciones.fechaEva,
-                Coevaluaciones.puntuacion,
-                Coevaluaciones.comentarios,
-                EvaluacionesProfesor.idEvaluacionProfesor,
-                EvaluacionesProfesor.idProfesor,
-                EvaluacionesProfesor.fechaEva,
-                EvaluacionesProfesor.puntuacion,
-                EvaluacionesProfesor.comentarios
-            ).select {
-                (AutoEvaluaciones.idAlumno eq idAlumno) and
-                        (Coevaluaciones.idAlumno eq idAlumno) and
-                        (EvaluacionesProfesor.idAlumno eq idAlumno)
-            }.map { row ->
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                val autoEvaluacionFechaEvaString = row[AutoEvaluaciones.fechaEva]
-                val autoEvaluacionFechaEva = dateFormat.parse(autoEvaluacionFechaEvaString)
-
-                val coevaluacionFechaEvaString = row[Coevaluaciones.fechaEva]
-                val coevaluacionFechaEva = dateFormat.parse(coevaluacionFechaEvaString)
-
-                val evaluacionProfesorFechaEvaString = row[EvaluacionesProfesor.fechaEva]
-                val evaluacionProfesorFechaEva = dateFormat.parse(evaluacionProfesorFechaEvaString)
-
-                EvaluacionAlumno(
-                    autoevaluacion = AutoEvaluacion(
-                        idAutoEvaluacion = row[AutoEvaluaciones.idAutoEvaluacion],
-                        idAlumno = row[AutoEvaluaciones.idAlumno],
-                        fechaEva = autoEvaluacionFechaEva,
-                        puntuacion = row[AutoEvaluaciones.puntuacion],
-                        comentarios = row[AutoEvaluaciones.comentarios]
-                    ),
-                    coevaluacion = Coevaluacion(
-                        idCoevaluacion = row[Coevaluaciones.idCoevaluacion],
-                        idAlumno = row[AutoEvaluaciones.idAlumno],
-                        idCoevaluador = row[Coevaluaciones.idCoevaluador],
-                        fechaEva = coevaluacionFechaEva,
-                        puntuacion = row[Coevaluaciones.puntuacion],
-                        comentarios = row[Coevaluaciones.comentarios]
-                    ),
-                    evaluacionProfesor = EvaluacionProfesor(
-                        idEvaluacionProfesor = row[EvaluacionesProfesor.idEvaluacionProfesor],
-                        idProfesor = row[EvaluacionesProfesor.idProfesor],
-                        idAlumno = row[EvaluacionesProfesor.idAlumno],
-                        fechaEva = evaluacionProfesorFechaEva,
-                        puntuacion = row[EvaluacionesProfesor.puntuacion],
-                        comentarios = row[EvaluacionesProfesor.comentarios]
-                    )
-                )
-            }
-        }
+    override suspend fun selectJoin(): List<Alumno> = dbQuery {
+        Valoraciones.join(Modulos, JoinType.INNER, Valoraciones.idModulo, Modulos.idModulo)
+            .join(Competencias, JoinType.INNER, Valoraciones.idCompetencia, Valoraciones.idCompetencia)
+            .selectAll()
+            .map(::resultToRowAlumno)
     }
 
-
+//    override suspend fun selectEvaluacionesPorAlumno(idAlumno: Int, fechaInicio: String, fechaFin: String): List<EvaluacionAlumno> {
+//        return dbQuery {
+//            (AutoEvaluaciones innerJoin Coevaluaciones innerJoin EvaluacionesProfesor)
+//                .slice(
+//                AutoEvaluaciones.idAutoEvaluacion,
+//                AutoEvaluaciones.idAlumno,
+//                AutoEvaluaciones.fechaEva,
+//                AutoEvaluaciones.puntuacion,
+//                AutoEvaluaciones.comentarios,
+//                Coevaluaciones.idCoevaluacion,
+//                Coevaluaciones.idCoevaluador,
+//                Coevaluaciones.fechaEva,
+//                Coevaluaciones.puntuacion,
+//                Coevaluaciones.comentarios,
+//                EvaluacionesProfesor.idEvaluacionProfesor,
+//                EvaluacionesProfesor.idProfesor,
+//                EvaluacionesProfesor.fechaEva,
+//                EvaluacionesProfesor.puntuacion,
+//                EvaluacionesProfesor.comentarios
+//            ).select {
+//                (AutoEvaluaciones.idAlumno eq idAlumno) and
+//                        (Coevaluaciones.idAlumno eq idAlumno) and
+//                        (EvaluacionesProfesor.idAlumno eq idAlumno) and
+//                        (AutoEvaluaciones.fechaEva.between(fechaInicio, fechaFin)) and
+//                        (Coevaluaciones.fechaEva.between(fechaInicio, fechaFin)) and
+//                        (EvaluacionesProfesor.fechaEva.between(fechaInicio, fechaFin))
+//            }.map { row ->
+//                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+//                val autoEvaluacionFechaEvaString = row[AutoEvaluaciones.fechaEva]
+//                val autoEvaluacionFechaEva = dateFormat.parse(autoEvaluacionFechaEvaString)
+//
+//                val coevaluacionFechaEvaString = row[Coevaluaciones.fechaEva]
+//                val coevaluacionFechaEva = dateFormat.parse(coevaluacionFechaEvaString)
+//
+//                val evaluacionProfesorFechaEvaString = row[EvaluacionesProfesor.fechaEva]
+//                val evaluacionProfesorFechaEva = dateFormat.parse(evaluacionProfesorFechaEvaString)
+//
+//                EvaluacionAlumno(
+//                    autoevaluacion = AutoEvaluacion(
+//                        idAutoEvaluacion = row[AutoEvaluaciones.idAutoEvaluacion],
+//                        idAlumno = row[AutoEvaluaciones.idAlumno],
+//                        fechaEva = autoEvaluacionFechaEva,
+//                        puntuacion = row[AutoEvaluaciones.puntuacion],
+//                        comentarios = row[AutoEvaluaciones.comentarios]
+//                    ),
+//                    coevaluacion = Coevaluacion(
+//                        idCoevaluacion = row[Coevaluaciones.idCoevaluacion],
+//                        idAlumno = row[AutoEvaluaciones.idAlumno],
+//                        idCoevaluador = row[Coevaluaciones.idCoevaluador],
+//                        fechaEva = coevaluacionFechaEva,
+//                        puntuacion = row[Coevaluaciones.puntuacion],
+//                        comentarios = row[Coevaluaciones.comentarios]
+//                    ),
+//                    evaluacionProfesor = EvaluacionProfesor(
+//                        idEvaluacionProfesor = row[EvaluacionesProfesor.idEvaluacionProfesor],
+//                        idProfesor = row[EvaluacionesProfesor.idProfesor],
+//                        idAlumno = row[EvaluacionesProfesor.idAlumno],
+//                        fechaEva = evaluacionProfesorFechaEva,
+//                        puntuacion = row[EvaluacionesProfesor.puntuacion],
+//                        comentarios = row[EvaluacionesProfesor.comentarios]
+//                    )
+//                )
+//            }
+//        }
+//    }
 
 }
 

@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 
 class DAOEvaluacionProfesorImpl: DAOEvaluacionProfesor {
 
-    private fun resultToRowEvaluacionProfesor(row: ResultRow): EvaluacionProfesor {
+    fun resultToRowEvaluacionProfesor(row: ResultRow): EvaluacionProfesor {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd") // ajusta el formato según cómo se almacenen las fechas en la base de datos
         val fechaEvaString = row[EvaluacionesProfesor.fechaEva]
         val fechaEva = dateFormat.parse(fechaEvaString)
