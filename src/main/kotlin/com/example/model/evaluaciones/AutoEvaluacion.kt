@@ -19,7 +19,7 @@ data class AutoEvaluacion(
 )
 
 object AutoEvaluaciones: Table("autoevaluacion"){
-    val idAutoEvaluacion = integer("idevaluacion").autoIncrement()
+    val idAutoEvaluacion = integer("idautoevaluacion").autoIncrement()
     val idAlumno = integer("idalumno").references(Alumnos.idAlumno)
     val fechaEva = varchar("fechaeva", 55)
     val puntuacion = integer("puntuacion")

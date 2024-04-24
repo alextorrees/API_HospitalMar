@@ -28,7 +28,7 @@ object Alumnos: Table("alumno"){
     val dni = varchar("dni", 55)
     val correo = varchar("correo", 255)
     val identificador = varchar("identificador", 255)
-    val idModulo = integer("idmodul").references(Modulos.idModulo)
+    val idModulo = integer("idmodulo").references(Modulos.idModulo)
     val codCiclo = integer("codciclo")
     val contrasenya = varchar("contrasenya", 255)
     val idProfesor = integer("idprofesor").references(Profesores.idProfesor)

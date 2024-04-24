@@ -7,9 +7,13 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 object DataBaseConnection {
     fun init(){
         val driverClassName = "org.postgresql.Driver"
+        val url = "jdbc:postgresql://jelani.db.elephantsql.com/fnlkzeoc"
+        val user = "fnlkzeoc"
+        val password = "b5he8YaQqUJ8TjiDhggfaSP408cYKsMR"
+       /* val driverClassName = "org.postgresql.Driver"
         val url = "jdbc:postgresql://34.192.34.148:5432/hmar"
         val user = "postgres"
-        val password = ""
+        val password = ""*/
         try {
             Database.connect(url, driverClassName, user, password)
             println("Conexión a la base de datos establecida correctamente.")

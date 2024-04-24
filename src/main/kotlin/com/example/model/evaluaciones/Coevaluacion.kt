@@ -13,7 +13,7 @@ data class Coevaluacion(
 )
 
 object Coevaluaciones: Table("coevaluacion"){
-    val idCoevaluacion = integer("idevaluacion").autoIncrement()
+    val idCoevaluacion = integer("idcoevaluacion").autoIncrement()
     val idAlumno = integer("idalumno").references(Alumnos.idAlumno)
     val idCoevaluador = integer("idcoevaluador").references(Alumnos.idAlumno)
     val fechaEva = varchar("fechaeva", 55)

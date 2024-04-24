@@ -1,5 +1,9 @@
 package com.example.routes
 
+import com.example.model.getMd5Digest
+import com.example.model.myRealm
+import com.example.model.uploadUser
+import com.example.model.userTable
 import com.example.model.usuarios.Alumno
 import com.example.model.usuarios.Alumnos
 import com.example.model.usuarios.Profesor
@@ -17,12 +21,14 @@ fun Route.LoginRoute(){
     route("user"){
         post("/login/alumno") {
             val alumno = call.receive<Alumno>()
-            val esValido = validarCredencialesAlumno(alumno.correo, alumno.contrasenya)
-
-            if (esValido) {
-                call.respondText("Login correcto", status = HttpStatusCode.Accepted)
-            } else {
-                call.respondText("Login incorrecto", status = HttpStatusCode.Conflict)
+            userTable = uploadUser()
+            val userHidden = getMd5Digest("${alumno.correo}:$myRealm:${alumno.contrasenya}")
+            if (userTable.containsKey(alumno.correo) && userTable[alumno.correo]?.contentEquals(userHidden) == true) {
+                call.respondText("Login correcte", status = HttpStatusCode.Accepted)
+                return@post
+            }
+            else {
+                call.respondText("Login incorrecte", status = HttpStatusCode.Conflict)
             }
         }
         post("/login/profesor") {

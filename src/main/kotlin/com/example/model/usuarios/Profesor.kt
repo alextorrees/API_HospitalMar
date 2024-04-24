@@ -17,12 +17,13 @@ data class Profesor (
 
 object Profesores: Table("profesor"){
     val idProfesor = integer("idprofesor").autoIncrement()
-    val contrasenya = varchar("contrasenya", 255)
-    val identificador = varchar("identificador", 255)
-    val correo = varchar("correo", 255)
     val nombre = varchar("nombre", 255)
     val apellido1 = varchar("apellido1", 55)
     val apellido2 = varchar("apellido2", 55)
     val dni = varchar("dni", 55)
+    val correo = varchar("correo", 255)
+    val identificador = varchar("identificador", 255)
+    val contrasenya = varchar("contrasenya", 255)
+    val tutor = bool("tutor")
     val admin = bool("admin")
 }

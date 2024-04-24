@@ -16,4 +16,14 @@ fun Application.module() {
     configureSecurity()
     configureSerialization()
     configureRouting()
+//    install(CORS) {
+//        allowMethod(HttpMethod.Options)
+//        allowMethod(HttpMethod.Put)
+//        allowMethod(HttpMethod.Post)
+//        allowMethod(HttpMethod.Patch)
+//        allowMethod(HttpMethod.Delete)
+//        allowHeader("Content-Type")
+//        allowHeader("Authorization")
+//        anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+//    }
 }
