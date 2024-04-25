@@ -20,9 +20,9 @@ class DAOEvaluacionProfesorImpl: DAOEvaluacionProfesor {
             fechaEva = fechaEva,
             puntuacion = row[EvaluacionesProfesor.puntuacion],
             comentarios = row[EvaluacionesProfesor.comentarios]
-        )
-    }
-    override suspend fun anadirEvaluacionProfesor(idProfesor: Int, idAlumno: Int, fechaEva: String, puntuacion: Int, comentarios: String) {
+    )
+
+    override suspend fun anadirEvaluacionProfesor(idProfesor: Int, idAlumno: Int, fechaEva: LocalDate, puntuacion: Int, comentarios: String) {
         val insertStatement = EvaluacionesProfesor.insert {
             it[EvaluacionesProfesor.idProfesor] = idProfesor
             it[EvaluacionesProfesor.idAlumno] = idAlumno

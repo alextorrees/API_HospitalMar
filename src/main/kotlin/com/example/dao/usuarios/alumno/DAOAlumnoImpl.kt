@@ -60,13 +60,6 @@ class DAOAlumnoImpl: DAOAlumno {
         insertStatement.resultedValues?.singleOrNull()?.let(::resultToRowAlumno)
     }
 
-    fun hashPassword(password: String): String {
-        val bytes = password.toByteArray()
-        val digest = MessageDigest.getInstance("SHA-256")
-        val hashedBytes = digest.digest(bytes)
-        return hashedBytes.joinToString("") { "%02x".format(it) }
-    }
-
     override suspend fun updateContrasenya(idAlumno: Int, contrasenya: String): Boolean = dbQuery {
         val contrasenyaEncriptada = hashPassword(contrasenya) // Encriptar la nueva contraseña
         Alumnos.update({ Alumnos.idAlumno eq idAlumno }) {

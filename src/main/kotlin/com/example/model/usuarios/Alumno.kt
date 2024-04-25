@@ -30,7 +30,7 @@ object Alumnos: Table("alumno"){
     val identificador = varchar("identificador", 255)
     val idModulo = integer("idmodulo").references(Modulos.idModulo)
     val codCiclo = integer("codciclo")
-    val contrasenya = varchar("contrasenya", 255)
+    val contrasenya = varchar("contrasenya", 5000)
     val idProfesor = integer("idprofesor").references(Profesores.idProfesor)
 
     override val primaryKey = PrimaryKey(idAlumno)
