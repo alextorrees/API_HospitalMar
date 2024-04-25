@@ -1,23 +1,26 @@
 package com.example.dao.evaluaciones.evaluacionProfesor
 
+import com.example.dao.DataBaseConnection.dbQuery
+import com.example.dao.DataBaseConnection
+import com.example.dao.usuarios.alumno.DAOAlumno
+import com.example.dao.usuarios.alumno.DAOAlumnoImpl
 import com.example.model.evaluaciones.EvaluacionProfesor
 import com.example.model.evaluaciones.EvaluacionesProfesor
+import com.example.model.usuarios.Alumno
+import com.example.model.usuarios.Alumnos
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 class DAOEvaluacionProfesorImpl: DAOEvaluacionProfesor {
-
-    fun resultToRowEvaluacionProfesor(row: ResultRow): EvaluacionProfesor {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd") // ajusta el formato según cómo se almacenen las fechas en la base de datos
-        val fechaEvaString = row[EvaluacionesProfesor.fechaEva]
-        val fechaEva = dateFormat.parse(fechaEvaString)
-
-        return EvaluacionProfesor(
+    private fun resultToRowEvaluacionProfesor(row: ResultRow)= EvaluacionProfesor (
             idEvaluacionProfesor = row[EvaluacionesProfesor.idEvaluacionProfesor],
             idProfesor = row[EvaluacionesProfesor.idProfesor],
             idAlumno = row[EvaluacionesProfesor.idAlumno],
-            fechaEva = fechaEva,
+            fechaEva = row[EvaluacionesProfesor.fechaEva],
             puntuacion = row[EvaluacionesProfesor.puntuacion],
             comentarios = row[EvaluacionesProfesor.comentarios]
     )
@@ -32,4 +35,11 @@ class DAOEvaluacionProfesorImpl: DAOEvaluacionProfesor {
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::resultToRowEvaluacionProfesor)
     }
+
+    override suspend fun selectEvaluacionesProfesor(idAlumno: Int): List<EvaluacionProfesor> = dbQuery {
+        EvaluacionesProfesor.select { EvaluacionesProfesor.idAlumno eq idAlumno }.map(::resultToRowEvaluacionProfesor)
+    }
+
 }
+
+val daoEvaluacionProfesor: DAOEvaluacionProfesor = DAOEvaluacionProfesorImpl().apply{}

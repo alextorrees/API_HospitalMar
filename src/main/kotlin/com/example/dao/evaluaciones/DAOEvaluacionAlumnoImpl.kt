@@ -15,9 +15,9 @@ class DAOEvaluacionAlumnoImpl: DAOEvaluacionAlumno{
     private fun resultToRowEvaluacionAlumno (row: ResultRow): EvaluacionAlumno{
         val  autoevaluacion = DAOAutoevaluacionImpl().resultToRowAutoevaluacion(row)
         val coevaluacion = DAOCoevaluacionImpl().resultToRowCoevaluacion(row)
-        val evaluacionProfesor = DAOEvaluacionProfesorImpl().resultToRowEvaluacionProfesor(row)
+//        val evaluacionProfesor = DAOEvaluacionProfesorImpl().resultToRowEvaluacionProfesor(row)
 
-        return EvaluacionAlumno(autoevaluacion, coevaluacion, evaluacionProfesor)
+        return EvaluacionAlumno(autoevaluacion, coevaluacion)
     }
 
     override suspend fun selectEvaluacionesPorAlumno(idAlumno: Int, fechaInicio: String, fechaFin: String): List<EvaluacionAlumno> = dbQuery {

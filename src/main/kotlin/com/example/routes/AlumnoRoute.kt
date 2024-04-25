@@ -1,7 +1,9 @@
 package com.example.routes
 
 import com.example.dao.evaluaciones.daoEvaluacionAlumno
+import com.example.dao.evaluaciones.evaluacionProfesor.daoEvaluacionProfesor
 import com.example.dao.usuarios.alumno.daoAlumno
+import com.example.hashPassword
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -107,11 +109,6 @@ fun Route.AlumnoRouting() {
                 }
             }
         }
-    }
+   }
 }
-fun hashPassword(password: String): String {
-    val bytes = password.toByteArray()
-    val digest = MessageDigest.getInstance("SHA-256")
-    val hashedBytes = digest.digest(bytes)
-    return hashedBytes.joinToString("") { "%02x".format(it) }
-}
+
