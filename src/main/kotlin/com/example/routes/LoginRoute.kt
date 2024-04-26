@@ -17,9 +17,9 @@ fun Route.LoginRoute(){
         post("/login") {
             val alumno = call.receive<Alumno>()
             userTable = uploadUser()
-            val userRequestHidden = getMd5Digest("${alumno.correo}:$myRealm:${alumno.contrasenya}")
-            val userCurrentHidden = userTable[alumno.correo]
-            if (userTable.containsKey(alumno.correo) && userCurrentHidden.contentEquals(userRequestHidden)) {
+            val userRequestHidden = getMd5Digest("${alumno.identificador}:$myRealm:${alumno.contrasenya}")
+            val userCurrentHidden = userTable[alumno.identificador]
+            if (userTable.containsKey(alumno.identificador) && userCurrentHidden.contentEquals(userRequestHidden)) {
                 call.respondText("Login correcte", status = HttpStatusCode.Accepted)
                 return@post
             }
