@@ -1,6 +1,8 @@
 package com.example.dao
 
 import com.example.dao.DataBaseConnection.dbQuery
+import com.example.dao.evaluaciones.evaluacionProfesor.DAOEvaluacionProfesor
+import com.example.dao.evaluaciones.evaluacionProfesor.DAOEvaluacionProfesorImpl
 import com.example.model.Modulo
 import com.example.model.Modulos
 import com.example.model.usuarios.Alumno
@@ -28,3 +30,6 @@ class DAOModuloImpl: DAOModulo {
         Modulos.select(Modulos.codCiclo eq codCiclo).map(::resultToRowModulo)
     }
 }
+
+val daoModulo: DAOModulo = DAOModuloImpl().apply{}
+

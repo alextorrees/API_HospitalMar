@@ -1,18 +1,19 @@
 package com.example.model.evaluaciones
 
+import com.example.model.LocalDateSerializer
 import com.example.model.usuarios.Alumnos
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import java.util.Date
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.date
 import java.time.LocalDate
 
-
+@Serializable
 data class EvaluacionProfesor(
     val idEvaluacionProfesor: Int,
     val idAlumno: Int,
     val idProfesor: Int,
+    @Serializable(with = LocalDateSerializer::class)
     val fechaEva: LocalDate,
     val puntuacion: Int,
     val comentarios: String
