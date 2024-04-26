@@ -19,7 +19,7 @@ suspend fun uploadUser(): MutableMap<String, ByteArray> {
         return mutableMapOf() // Devolver un mapa vacío si no hay usuarios
     }
     for (user in userList) {
-        userTable[user.correo] = getMd5Digest("${user.correo}:$myRealm:${user.contrasenya}")
+        userTable[user.identificador] = getMd5Digest("${user.identificador}:$myRealm:${user.contrasenya}")
     }
     return userTable
 }
