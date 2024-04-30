@@ -30,7 +30,7 @@ fun Route.LoginRoute(){
             ProfesorTable = uploadProfesor()
             val userRequestHidden = getMd5DigestProfesor("${profesor.identificador}:$myRealm:${profesor.contrasenya}")
             val userCurrentHidden = ProfesorTable[profesor.identificador]
-            if (userTable.containsKey(profesor.identificador) && userCurrentHidden.contentEquals(userRequestHidden)) {
+            if (ProfesorTable.containsKey(profesor.identificador) && userCurrentHidden.contentEquals(userRequestHidden)) {
                 call.respondText("Login correcte", status = HttpStatusCode.Accepted)
                 return@post
             }
