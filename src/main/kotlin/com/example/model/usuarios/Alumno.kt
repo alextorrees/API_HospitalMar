@@ -9,13 +9,12 @@ import org.jetbrains.exposed.sql.Table
 data class Alumno (
     val idAlumno: Int,
     val nombre: String,
-    val apellido1: String,
-    val apellido2: String,
-    val dni: String,
+    val apellidos: String,
     val correo: String,
     val identificador: String,
-    val idModulo: Int,
-    val codCiclo: Int,
+    val etiqueta: String,
+    val especialidad: String,
+    val grupos: String,
     val contrasenya: String,
     val idProfesor: Int,
 )
@@ -23,13 +22,12 @@ data class Alumno (
 object Alumnos: Table("alumno"){
     val idAlumno = integer("idalumno").autoIncrement()
     val nombre = varchar("nombre", 255)
-    val apellido1 = varchar("apellido1", 55)
-    val apellido2 = varchar("apellido2", 55)
-    val dni = varchar("dni", 55)
+    val apellidos = varchar("apellidos", 55)
     val correo = varchar("correo", 255)
     val identificador = varchar("identificador", 255)
-    val idModulo = integer("idmodulo").references(Modulos.idModulo)
-    val codCiclo = integer("codciclo")
+    val etiqueta = varchar("etiqueta", 255)
+    val especialidad = varchar("especialidad", 255)
+    val grupos = varchar("grupos", 55)
     val contrasenya = varchar("contrasenya", 5000)
     val idProfesor = integer("idprofesor").references(Profesores.idProfesor)
 
