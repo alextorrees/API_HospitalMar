@@ -19,13 +19,12 @@ class DAOAlumnoImpl: DAOAlumno {
     private fun resultToRowAlumno (row: ResultRow) = Alumno(
         idAlumno = row[Alumnos.idAlumno],
         nombre = row[Alumnos.nombre],
-        apellido1= row[Alumnos.apellido1],
-        apellido2 = row[Alumnos.apellido2],
-        dni = row[Alumnos.dni],
+        apellidos= row[Alumnos.apellidos],
         correo = row[Alumnos.correo],
         identificador = row[Alumnos.identificador],
-        idModulo = row[Alumnos.idModulo],
-        codCiclo = row[Alumnos.codCiclo],
+        etiqueta = row[Alumnos.etiqueta],
+        especialidad = row[Alumnos.especialidad],
+        grupos = row[Alumnos.grupos],
         contrasenya = row[Alumnos.contrasenya],
         idProfesor = row[Alumnos.idProfesor]
     )
@@ -47,15 +46,17 @@ class DAOAlumnoImpl: DAOAlumno {
         Alumnos.select { Alumnos.idProfesor eq idProfesor }.map(::resultToRowAlumno)
     }
 
-    override suspend fun insertNuevoAlumno(nombre: String, apellido1: String, apellido2: String, dni: String, correo: String, identificador: String, codCiclo: Int): Alumno? = dbQuery {
+    override suspend fun insertNuevoAlumno(nombre: String, apellidos: String, correo: String, identificador: String, etiqueta: String, especialidad: String, grupos: String, contrasenya: String, idProfesor: Int): Alumno? = dbQuery {
         val insertStatement = Alumnos.insert {
             it[Alumnos.nombre] = nombre
-            it[Alumnos.apellido1] = apellido1
-            it[Alumnos.apellido2] = apellido2
-            it[Alumnos.dni] = dni
+            it[Alumnos.apellidos] = apellidos
             it[Alumnos.correo] = correo
             it[Alumnos.identificador] = identificador
-            it[Alumnos.codCiclo] = codCiclo
+            it[Alumnos.etiqueta] = identificador
+            it[Alumnos.especialidad] = identificador
+            it[Alumnos.grupos] = identificador
+            it[Alumnos.contrasenya] = contrasenya
+            it[Alumnos.idProfesor] = idProfesor
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::resultToRowAlumno)
     }
