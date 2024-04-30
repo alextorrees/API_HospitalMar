@@ -13,7 +13,7 @@ var userTable: MutableMap<String, ByteArray> = mutableMapOf(
     "admin" to getMd5Digest("admin:$myRealm:password")
 )
 
-suspend fun uploadUser(): MutableMap<String, ByteArray> {
+suspend fun uploadAlumno(): MutableMap<String, ByteArray> {
     val userList = daoAlumno.allAlumno()
     if (userList.isEmpty()) {
         return mutableMapOf() // Devolver un mapa vacío si no hay usuarios
