@@ -9,7 +9,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.ModuloRouting() {
-    authenticate("myAuth"){
+//    authenticate("myAuth"){
         route("/modulo") {
             get {
                 val moduloList = daoModulo.selectAllModuls()
@@ -34,5 +34,5 @@ fun Route.ModuloRouting() {
                 }
             }
         }
-    }
+//    }
 }

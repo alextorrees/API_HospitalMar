@@ -38,8 +38,8 @@ class DAOAlumnoImpl: DAOAlumno {
         Alumnos.select{Alumnos.idAlumno eq idAlumno}.map(::resultToRowAlumno).singleOrNull()
     }
 
-    override suspend fun selectAlumnoPorCorreo(correo: String): Alumno? = dbQuery {
-        Alumnos.select { Alumnos.correo eq correo }.map(::resultToRowAlumno).singleOrNull()
+    override suspend fun selectAlumnoPorIdentificador(identificador: String): Alumno? = dbQuery {
+        Alumnos.select { Alumnos.identificador eq identificador }.map(::resultToRowAlumno).singleOrNull()
     }
 
     override suspend fun selectAlumnoPorProfesor(idProfesor: Int): List<Alumno> = dbQuery{

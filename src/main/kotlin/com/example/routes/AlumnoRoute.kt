@@ -9,10 +9,9 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import java.security.MessageDigest
 
 fun Route.AlumnoRouting() {
-   authenticate("myAuth"){
+//   authenticate("myAuth"){
         route("/alumno") {
             get {
                 val alumnoList = daoAlumno.allAlumno()
@@ -22,13 +21,13 @@ fun Route.AlumnoRouting() {
                     call.respondText("No se han encontrado usuarios.")
                 }
             }
-            get("/{correo?}") {
-                val correo = call.parameters["correo"] ?: return@get call.respondText(
-                    "Correo incorrecto",
+            get("/{identificador?}") {
+                val identificador = call.parameters["identificador"] ?: return@get call.respondText(
+                    "Identificador incorrecto",
                     status = HttpStatusCode.BadRequest
                 )
-                val alumno = daoAlumno.selectAlumnoPorCorreo(correo) ?: return@get call.respondText(
-                    "No hay alumno con este correo",
+                val alumno = daoAlumno.selectAlumnoPorIdentificador(identificador) ?: return@get call.respondText(
+                    "No hay alumno con este identificador",
                     status = HttpStatusCode.NotFound
                 )
                 call.respond(alumno)
@@ -109,6 +108,6 @@ fun Route.AlumnoRouting() {
                 }
             }
         }
-   }
+//   }
 }
 
