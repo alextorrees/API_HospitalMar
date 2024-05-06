@@ -7,20 +7,16 @@ import java.security.MessageDigest
 
 data class DigestProfesorTable(val userName: String, val realm: String) : Principal
 
-fun getMd5DigestProfesor(str: String): ByteArray = MessageDigest.getInstance("MD5").digest(str.toByteArray(Charsets.UTF_8))
 
-val myRealmProf = "Access to the '/' path"
-var ProfesorTable: MutableMap<String, ByteArray> = mutableMapOf(
-    "admin" to getMd5Digest("admin:$myRealmProf:password")
-)
+var profesorTable: MutableMap<String, ByteArray> = mutableMapOf()
 
-suspend fun uploadProfesor(): MutableMap<String, ByteArray> {
-    val userList = daoProfesor.allProfesor()
-    if (userList.isEmpty()) {
-        return mutableMapOf() // Devolver un mapa vacío si no hay usuarios
+suspend fun uploadProfesor(): MutableMap<String, String> {
+    val profesorList = daoProfesor.allProfesor()
+    val profesorTable = mutableMapOf<String, String>()
+
+    for (profesor in profesorList) {
+        profesorTable[profesor.identificador] = profesor.contrasenya
     }
-    for (user in userList) {
-        ProfesorTable[user.identificador] = getMd5DigestProfesor("${user.identificador}:$myRealm:${user.contrasenya}")
-    }
-    return ProfesorTable
+
+    return profesorTable
 }

@@ -3,7 +3,7 @@ package com.example.routes
 import com.example.dao.evaluaciones.daoEvaluacionAlumno
 import com.example.dao.evaluaciones.evaluacionProfesor.daoEvaluacionProfesor
 import com.example.dao.usuarios.alumno.daoAlumno
-import com.example.hashPassword
+import com.example.getMd5DigestForPassword
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -81,7 +81,7 @@ fun Route.AlumnoRouting() {
                     contrasenya = call.parameters["contrasenya"]!!
 
                     // Hashear la nueva contraseña
-                    val contrasenyaHasheada = hashPassword(contrasenya)
+                    val contrasenyaHasheada = getMd5DigestForPassword(contrasenya)
 
                     // Actualizar la contraseña hasheada en la base de datos
                     if (daoAlumno.updateContrasenya(idAlumno, contrasenyaHasheada)) {

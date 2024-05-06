@@ -14,27 +14,25 @@ fun Route.LoginRoute(){
     route("user"){
         post("/login/alumno") {
             val alumno = call.receive<Alumno>()
-            userTable = uploadAlumno()
-            val userRequestHidden = getMd5Digest("${alumno.identificador}:$myRealm:${alumno.contrasenya}")
-            val userCurrentHidden = userTable[alumno.identificador]
-            if (userTable.containsKey(alumno.identificador) && userCurrentHidden.contentEquals(userRequestHidden)) {
+            val userTable = uploadAlumno()
+
+            val userCurrentHashedPassword = userTable[alumno.identificador]
+
+            if (userCurrentHashedPassword != null && userCurrentHashedPassword == alumno.contrasenya) {
                 call.respondText("Login correcte", status = HttpStatusCode.Accepted)
-                return@post
-            }
-            else {
+            } else {
                 call.respondText("Login incorrecte", status = HttpStatusCode.Conflict)
             }
         }
         post("/login/profesor") {
             val profesor = call.receive<Profesor>()
-            ProfesorTable = uploadProfesor()
-            val userRequestHidden = getMd5DigestProfesor("${profesor.identificador}:$myRealm:${profesor.contrasenya}")
-            val userCurrentHidden = ProfesorTable[profesor.identificador]
-            if (ProfesorTable.containsKey(profesor.identificador) && userCurrentHidden.contentEquals(userRequestHidden)) {
+            val profesorTable = uploadProfesor()
+
+            val userCurrentHashedPassword = profesorTable[profesor.identificador]
+
+            if (userCurrentHashedPassword != null && userCurrentHashedPassword == profesor.contrasenya) {
                 call.respondText("Login correcte", status = HttpStatusCode.Accepted)
-                return@post
-            }
-            else {
+            } else {
                 call.respondText("Login incorrecte", status = HttpStatusCode.Conflict)
             }
         }
