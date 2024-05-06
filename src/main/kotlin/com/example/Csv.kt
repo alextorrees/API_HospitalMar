@@ -1,7 +1,6 @@
 package com.example
 
-import com.example.model.getMd5Digest
-import com.example.model.myRealm
+
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -22,9 +21,7 @@ fun main() {
     leerDatosCSVAlumnos(connection, csvFileAlumnos)
     leerDatosCSVProfesores(connection, csvFileProfesor)
 
-    val encriptado = getMd5Digest("contrasena1:$myRealm").toHex()
 
-    println(encriptado)
     connection.close()
 }
 
