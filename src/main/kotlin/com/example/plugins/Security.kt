@@ -7,7 +7,6 @@ import io.ktor.server.auth.*
 fun Application.configureSecurity() {
     install(Authentication) {
         digest("myAuth") {
-            realm = myRealm
             digestProvider { userName, _ ->
                 userTable[userName]
             }
@@ -20,9 +19,8 @@ fun Application.configureSecurity() {
             }
         }
         digest("myAuthProf") {
-            realm = myRealmProf
             digestProvider { userName, _ ->
-                ProfesorTable[userName]
+                profesorTable[userName]
             }
             validate { credentials ->
                 if (credentials.userName.isNotEmpty()) {

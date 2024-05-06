@@ -1,5 +1,7 @@
 package com.example
 
+import com.example.model.getMd5Digest
+import com.example.model.myRealm
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -17,13 +19,17 @@ fun main() {
     val connection = DriverManager.getConnection(url, user, password)
 
     println("Leyendo datos del archivo CSV 1:")
-//    leerDatosCSVAlumnos(connection, csvFileAlumnos)
+    leerDatosCSVAlumnos(connection, csvFileAlumnos)
     leerDatosCSVProfesores(connection, csvFileProfesor)
 
-//    insertarDatosDesdeCSV(connection, csvFile1)
-//    insertarDatosDesdeCSV(connection, csvFile2)
+    val encriptado = getMd5Digest("contrasena1:$myRealm").toHex()
 
+    println(encriptado)
     connection.close()
+}
+
+fun ByteArray.toHex(): String {
+    return joinToString("") { "%02x".format(it) }
 }
 
 fun leerDatosCSVAlumnos(connection: Connection, csvFile: File) {
@@ -71,19 +77,19 @@ fun leerDatosCSVAlumnos(connection: Connection, csvFile: File) {
 
 fun leerDatosCSVProfesores(connection: Connection, csvFile: File) {
     val reader = BufferedReader(FileReader(csvFile))
-    val header = reader.readLine()?.split(",") ?: return
+    val header = reader.readLine()
 
     // Imprimir el encabezado
     println("Encabezado:")
-    println(header.joinToString())
+    println(header)
 
     // Leer y mostrar cada fila de datos
     var lineNumber = 2
     while (true) {
         val line = reader.readLine() ?: break
-        println(line)
-        val data = line.split(",")
-        println(data)
+//        println(line)
+        val data = line.split("\t")
+//        println(data)
 
         val codi = data[0].replace("\"", "")
         val etiqueta = data[1].replace("\"", "")
@@ -135,6 +141,8 @@ fun insertarFilaAlumnoEnBD(connection: Connection, csvline: CsvLine) {
 
 fun insertarFilaProfesorEnBD(connection: Connection, csvline: CsvLine) {
     val insertProfesorQuery = "INSERT INTO Profesor (nombre, apellidos, correo, identificador, etiqueta, categoria, grupos, contrasenya, tutor, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+
 
     val insertProfesorStatement = connection.prepareStatement(insertProfesorQuery)
     insertProfesorStatement.setString(1, csvline.Nom)
