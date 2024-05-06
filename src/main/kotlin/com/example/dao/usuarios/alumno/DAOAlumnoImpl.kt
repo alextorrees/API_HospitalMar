@@ -1,18 +1,14 @@
 package com.example.dao.usuarios.alumno
 
 import com.example.dao.DataBaseConnection.dbQuery
-import com.example.hashPassword
+import com.example.getMd5DigestForPassword
 import com.example.model.Competencias
 import com.example.model.Modulos
 import com.example.model.Valoraciones
-import com.example.model.evaluaciones.*
 import com.example.model.usuarios.Alumno
 import com.example.model.usuarios.Alumnos
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
-import java.security.MessageDigest
-import java.text.SimpleDateFormat
-import kotlin.reflect.jvm.internal.ReflectProperties.Val
+
 
 
 class DAOAlumnoImpl: DAOAlumno {
@@ -62,7 +58,7 @@ class DAOAlumnoImpl: DAOAlumno {
     }
 
     override suspend fun updateContrasenya(idAlumno: Int, contrasenya: String): Boolean = dbQuery {
-        val contrasenyaEncriptada = hashPassword(contrasenya) // Encriptar la nueva contraseña
+        val contrasenyaEncriptada = getMd5DigestForPassword(contrasenya) // Encriptar la nueva contraseña
         Alumnos.update({ Alumnos.idAlumno eq idAlumno }) {
             it[Alumnos.contrasenya] = contrasenyaEncriptada // Almacenar la contraseña encriptada en la base de datos
         } < 0

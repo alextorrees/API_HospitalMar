@@ -19,14 +19,10 @@ fun main() {
 
     println("Leyendo datos del archivo CSV 1:")
     leerDatosCSVAlumnos(connection, csvFileAlumnos)
-    leerDatosCSVProfesores(connection, csvFileProfesor)
+//    leerDatosCSVProfesores(connection, csvFileProfesor)
 
 
     connection.close()
-}
-
-fun ByteArray.toHex(): String {
-    return joinToString("") { "%02x".format(it) }
 }
 
 fun leerDatosCSVAlumnos(connection: Connection, csvFile: File) {
@@ -65,7 +61,7 @@ fun leerDatosCSVAlumnos(connection: Connection, csvFile: File) {
 
         val csvline = CsvLine(codi, etiqueta, nom, cognoms, especialitat, grups, correu)
 
-//        insertarFilaAlumnoEnBD(connection, csvline)
+        insertarFilaAlumnoEnBD(connection, csvline)
 
         lineNumber++
     }
@@ -97,6 +93,8 @@ fun leerDatosCSVProfesores(connection: Connection, csvFile: File) {
         val correu = data[6].replace("\"", "")
 
 
+
+
         println("Fila $lineNumber:")
         println("Codi: $codi")
         println("Etiqueta: $etiqueta")
@@ -106,9 +104,10 @@ fun leerDatosCSVProfesores(connection: Connection, csvFile: File) {
         println("Grups: $grups")
         println("Correu-e: $correu")
 
+
         val csvline = CsvLine(codi, etiqueta, nom, cognoms, categoria, grups, correu)
 
-//        insertarFilaProfesorEnBD(connection, csvline)
+        insertarFilaProfesorEnBD(connection, csvline)
 
 
         lineNumber++
@@ -120,6 +119,9 @@ fun leerDatosCSVProfesores(connection: Connection, csvFile: File) {
 fun insertarFilaAlumnoEnBD(connection: Connection, csvline: CsvLine) {
     val insertAlumnoQuery = "INSERT INTO Alumno (nombre, apellidos, correo, identificador, etiqueta, especialidad, grupos, contrasenya, idprofesor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
+    val correoSinDominio = csvline.Correu.substringBefore('@')
+    val contra = getMd5DigestForPassword(correoSinDominio)
+
     val insertAlumnoStatement = connection.prepareStatement(insertAlumnoQuery)
     insertAlumnoStatement.setString(1, csvline.Nom)
     insertAlumnoStatement.setString(2, csvline.Cognoms)
@@ -128,8 +130,8 @@ fun insertarFilaAlumnoEnBD(connection: Connection, csvline: CsvLine) {
     insertAlumnoStatement.setString(5, csvline.Etiqueta)
     insertAlumnoStatement.setString(6, csvline.EspecialitatCategoria)
     insertAlumnoStatement.setString(7, csvline.Grups)
-    insertAlumnoStatement.setString(8, "Contrasenya")
-    insertAlumnoStatement.setInt(9, 1)
+    insertAlumnoStatement.setString(8, contra)
+    insertAlumnoStatement.setInt(9, 2)
 
     insertAlumnoStatement.executeUpdate()
 
@@ -137,9 +139,10 @@ fun insertarFilaAlumnoEnBD(connection: Connection, csvline: CsvLine) {
 }
 
 fun insertarFilaProfesorEnBD(connection: Connection, csvline: CsvLine) {
-    val insertProfesorQuery = "INSERT INTO Profesor (nombre, apellidos, correo, identificador, etiqueta, categoria, grupos, contrasenya, tutor, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    val insertProfesorQuery = "INSERT INTO Profesor (nombre, apellidos, correo, identificador, etiqueta, categoria, grupos, contrasenya, tutor, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, B'0', B'0')"
 
-
+    val correoSinDominio = csvline.Correu.substringBefore('@')
+    val contra = getMd5DigestForPassword(correoSinDominio)
 
     val insertProfesorStatement = connection.prepareStatement(insertProfesorQuery)
     insertProfesorStatement.setString(1, csvline.Nom)
@@ -149,9 +152,7 @@ fun insertarFilaProfesorEnBD(connection: Connection, csvline: CsvLine) {
     insertProfesorStatement.setString(5, csvline.Etiqueta)
     insertProfesorStatement.setString(6, csvline.EspecialitatCategoria)
     insertProfesorStatement.setString(7, csvline.Grups)
-    insertProfesorStatement.setString(8, "Contrasenya")
-    insertProfesorStatement.setBoolean(9, false)
-    insertProfesorStatement.setBoolean(10, false)
+    insertProfesorStatement.setString(8, contra)
 
     insertProfesorStatement.executeUpdate()
 
