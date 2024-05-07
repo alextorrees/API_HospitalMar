@@ -6,6 +6,8 @@ import java.io.File
 import java.io.FileReader
 import java.sql.Connection
 import java.sql.DriverManager
+import org.apache.poi.ss.usermodel.*
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 fun main() {
     val url = "jdbc:postgresql://jelani.db.elephantsql.com/fnlkzeoc"
@@ -14,12 +16,17 @@ fun main() {
 
     val csvFileAlumnos = File("/home/sjo/Escriptori/DADES/Pol Agustina/extras/CSVs/usuaris_dades_alumnes.csv")
     val csvFileProfesor = File("/home/sjo/Escriptori/DADES/Pol Agustina/extras/CSVs/usuaris_dades_profes_i_pas.csv")
+    val xlsxModulos = File("/home/sjo/Escriptori/DADES/Pol Agustina/extras/CSVs/moduls_professionals.xlsx")
 
     val connection = DriverManager.getConnection(url, user, password)
 
     println("Leyendo datos del archivo CSV 1:")
-    leerDatosCSVAlumnos(connection, csvFileAlumnos)
+//    leerDatosCSVAlumnos(connection, csvFileAlumnos)
 //    leerDatosCSVProfesores(connection, csvFileProfesor)
+    leerDatosXlsxModulos(connection, xlsxModulos)
+
+//    val contra = getMd5DigestForPassword("")
+//    println(contra)
 
 
     connection.close()
@@ -116,6 +123,40 @@ fun leerDatosCSVProfesores(connection: Connection, csvFile: File) {
     reader.close()
 }
 
+fun leerDatosXlsxModulos(connection: Connection, xlsxFile: File) {
+    val workbook = XSSFWorkbook(xlsxFile.inputStream())
+    val sheet = workbook.getSheetAt(0)
+
+    for (i in 2 until sheet.physicalNumberOfRows) {
+        val row = sheet.getRow(i) ?: continue
+
+        val codiCicle = row.getCell(1).stringCellValue
+        val codiComplert = row.getCell(2).stringCellValue
+        val nomCicle = row.getCell(3).stringCellValue
+        val torn = row.getCell(4).stringCellValue
+        val grup = row.getCell(5).stringCellValue
+        val numModul = row.getCell(6).stringCellValue
+        val nomModul = row.getCell(7).stringCellValue
+
+
+        println("codiCicle: $codiCicle")
+        println("codiComplert: $codiComplert")
+        println("nomCicle: $nomCicle")
+        println("torn: $torn")
+        println("grup: $grup")
+        println("numModul: $numModul")
+        println("nomModul: $nomModul")
+        println("")
+
+        val xlsxline = XlsxLine(codiCicle, codiComplert, nomCicle, torn, grup, numModul, nomModul)
+
+        // Insertar los datos en la base de datos
+        insertarModuloEnBD(connection, xlsxline)
+    }
+
+    workbook.close()
+}
+
 fun insertarFilaAlumnoEnBD(connection: Connection, csvline: CsvLine) {
     val insertAlumnoQuery = "INSERT INTO Alumno (nombre, apellidos, correo, identificador, etiqueta, especialidad, grupos, contrasenya, idprofesor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
@@ -159,6 +200,25 @@ fun insertarFilaProfesorEnBD(connection: Connection, csvline: CsvLine) {
     insertProfesorStatement.close()
 }
 
+
+fun insertarModuloEnBD(connection: Connection, xlsxline: XlsxLine) {
+    val insertModuloQuery = "INSERT INTO Modulo (codciclo, codcompleto, nombremodulo, turno, grupo, nummodulo, nombremodulo) VALUES (?, ?, ?, ?, ?, ?, ?)"
+
+    val insertModuloStatement = connection.prepareStatement(insertModuloQuery)
+    insertModuloStatement.setString(1, xlsxline.codiCicle)
+    insertModuloStatement.setString(2, xlsxline.codiComplert)
+    insertModuloStatement.setString(3, xlsxline.nomCicle)
+    insertModuloStatement.setString(4, xlsxline.torn)
+    insertModuloStatement.setString(5, xlsxline.grup)
+    insertModuloStatement.setString(6, xlsxline.numModul)
+    insertModuloStatement.setString(7, xlsxline.nomModul)
+
+    insertModuloStatement.executeUpdate()
+
+    insertModuloStatement.close()
+
+}
+
 class CsvLine (
     val Codi: String,
     val Etiqueta: String,
@@ -167,4 +227,14 @@ class CsvLine (
     val EspecialitatCategoria: String,
     val Grups: String,
     val Correu: String
+)
+
+class XlsxLine (
+    val  codiCicle: String,
+    val  codiComplert: String,
+    val  nomCicle: String,
+    val  torn: String,
+    val  grup: String,
+    val  numModul: String,
+    val  nomModul: String,
 )
