@@ -15,18 +15,20 @@ import org.jetbrains.exposed.sql.selectAll
 class DAOModuloImpl: DAOModulo {
     private fun resultToRowModulo (row: ResultRow) = Modulo(
         idModulo = row[Modulos.idModulo],
-        cursoAcademico = row[Modulos.cursoAcademico],
-        codCiclo =  row[Modulos.codCiclo],
+        codCiclo = row[Modulos.codCiclo],
+        codCompleto = row[Modulos.codCompleto],
+        nombreCiclo = row[Modulos.nombreCiclo],
+        turno = row[Modulos.turno],
         grupo = row[Modulos.grupo],
         numModulo = row[Modulos.numModulo],
-        nombreModul = row[Modulos.nombreModulo]
+        nombreModulo = row[Modulos.nombreModulo],
     )
 
     override suspend fun selectAllModuls(): List<Modulo> = dbQuery {
         Modulos.selectAll().map(::resultToRowModulo)
     }
 
-    override suspend fun selectModulsPorCiclos(idModulo: Int, codCiclo: Int) = dbQuery{
+    override suspend fun selectModulsPorCiclos(idModulo: Int, codCiclo: String) = dbQuery{
         Modulos.select(Modulos.codCiclo eq codCiclo).map(::resultToRowModulo)
     }
 }
