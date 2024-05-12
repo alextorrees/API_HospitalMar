@@ -5,21 +5,24 @@ import org.jetbrains.exposed.sql.Table
 @Serializable
 data class Modulo(
     val idModulo: Int,
-    val cursoAcademico: String,
-    val codCiclo: Int,
+    val codCiclo: String,
+    val codCompleto: String,
+    val nombreCiclo: String,
+    val turno: String,
     val grupo: String,
     val numModulo: String,
-    val nombreModul: String
-    //TODO (NO HACE FALTA METER LAS COMPETENCIAS QUE TIENE CADA CICLO?)
+    val nombreModulo: String
 )
 
 
 
 object Modulos: Table("modulo"){
     val idModulo = integer("idmodulo").autoIncrement()
-    val cursoAcademico = varchar("cursocademico", 55)
-    val codCiclo = integer("codciclo")
+    val codCiclo = varchar("codciclo", 55)
+    val codCompleto = varchar("codcompleto", 55)
+    val nombreCiclo = varchar("nombreciclo", 255)
+    val turno = varchar("nombreciclo", 55)
     val grupo = varchar("grupo", 55)
     val numModulo = varchar("nummodulo", 55)
-    val nombreModulo = varchar("nombremodulo", 55)
+    val nombreModulo = varchar("nombremodulo", 255)
 }

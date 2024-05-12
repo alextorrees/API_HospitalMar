@@ -21,7 +21,7 @@ fun Route.ModuloRouting() {
             }
             get("/{idModulo?}/{codCiclo?}") {
                 val idModulo = call.parameters["idModulo"] ?.toIntOrNull()
-                val codCiclo = call.parameters["codCiclo"] ?.toIntOrNull()
+                val codCiclo = call.parameters["codCiclo"]
                 if (idModulo != null && codCiclo != null){
                     val moduloList = daoModulo.selectModulsPorCiclos(idModulo, codCiclo)
                     if (moduloList.isNotEmpty()) {
