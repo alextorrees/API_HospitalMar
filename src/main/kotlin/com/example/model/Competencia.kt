@@ -9,7 +9,7 @@ data class Competencia(
     val pregunta2: String,
     val pregunta3: String,
     val pregunta4: String,
-    //TODO(AQUI NO HACE FALTA METER IDMODULO? )
+    val descripcion: String
 )
 
 object Competencias: Table("competencia"){
@@ -19,4 +19,5 @@ object Competencias: Table("competencia"){
     val pregunta2 = varchar("pregunta2", 1000)
     val pregunta3 = varchar("pregunta3", 1000)
     val pregunta4 = varchar("pregunta4", 1000)
+    val descripcion = varchar("descripcion", 1000)
 }
