@@ -9,7 +9,7 @@ import io.ktor.server.netty.*
 import io.ktor.server.plugins.cors.routing.*
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "192.168.1.25", module = Application::module)
+    embeddedServer(Netty, port = 8080, host = "192.168.1.144", module = Application::module)
             .start(wait = true)
 }
 

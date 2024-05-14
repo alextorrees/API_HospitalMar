@@ -1,12 +1,8 @@
 package com.example.dao
 
 import com.example.dao.DataBaseConnection.dbQuery
-import com.example.dao.evaluaciones.evaluacionProfesor.DAOEvaluacionProfesor
-import com.example.dao.evaluaciones.evaluacionProfesor.DAOEvaluacionProfesorImpl
 import com.example.model.Modulo
 import com.example.model.Modulos
-import com.example.model.usuarios.Alumno
-import com.example.model.usuarios.Alumnos
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.select
@@ -28,8 +24,11 @@ class DAOModuloImpl: DAOModulo {
         Modulos.selectAll().map(::resultToRowModulo)
     }
 
-    override suspend fun selectModulsPorCiclos(idModulo: Int, codCiclo: String) = dbQuery{
-        Modulos.select(Modulos.codCiclo eq codCiclo).map(::resultToRowModulo)
+    override suspend fun selectModulsPorCiclo(etiqueta: String): List<Modulo> {
+        val primerosCuatro = etiqueta.take(4)
+        return dbQuery {
+            Modulos.select { Modulos.codCompleto.like("$primerosCuatro%") }.map(::resultToRowModulo)
+        }
     }
 }
 

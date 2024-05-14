@@ -19,18 +19,18 @@ fun Route.ModuloRouting() {
                     call.respondText("No se han encontrado modulos.")
                 }
             }
-            get("/{idModulo?}/{codCiclo?}") {
-                val idModulo = call.parameters["idModulo"] ?.toIntOrNull()
-                val codCiclo = call.parameters["codCiclo"]
-                if (idModulo != null && codCiclo != null){
-                    val moduloList = daoModulo.selectModulsPorCiclos(idModulo, codCiclo)
-                    if (moduloList.isNotEmpty()) {
+            get("/{etiqueta?}"){
+                val etiqueta = call.parameters["etiqueta"]
+
+                if (etiqueta != null){
+                    val moduloList = daoModulo.selectModulsPorCiclo(etiqueta)
+                    if (moduloList.isNotEmpty()){
                         call.respond(moduloList)
                     }else{
-                        call.respondText("No se han encontrado modulos con id $idModulo y codigo ciclo $codCiclo.")
+                        call.respondText("No se han encontrado modulos con codigo $etiqueta")
                     }
                 }else{
-                    call.respondText("El parámetro idModulo o codCiclo es inválido")
+                    call.respondText("El parámetro etiqueta es inválido")
                 }
             }
         }
