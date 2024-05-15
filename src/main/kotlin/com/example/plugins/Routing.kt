@@ -6,10 +6,11 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
-        LoginRoute()
-        AlumnoRouting()
-        ProfesorRouting()
-        ModuloRouting()
-        CompetenciaRouting()
+        loginRoute()
+        alumnoRouting()
+        profesorRouting()
+        moduloRouting()
+        competenciaRouting()
+        informeRouting()
     }
 }
