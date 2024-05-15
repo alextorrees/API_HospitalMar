@@ -10,7 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 
-fun Route.LoginRoute(){
+fun Route.loginRoute(){
     route("user"){
         post("/login/alumno") {
             val alumno = call.receive<Alumno>()

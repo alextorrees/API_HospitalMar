@@ -1,14 +1,11 @@
 package com.example.routes
 
 import com.example.dao.daoModulo
-import com.example.dao.usuarios.alumno.daoAlumno
-import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Route.ModuloRouting() {
+fun Route.moduloRouting() {
 //    authenticate("myAuth"){
         route("/modulo") {
             get {

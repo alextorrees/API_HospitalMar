@@ -1,12 +1,11 @@
 package com.example.routes
 
 import com.example.dao.daoCompetencia
-import com.example.dao.daoModulo
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Route.CompetenciaRouting() {
+fun Route.competenciaRouting() {
 //    authenticate("myAuth"){
     route("/competencia") {
         get {
