@@ -28,8 +28,8 @@ fun main() {
 //    leerDatosCSVAlumnos(connection, csvFileAlumnos)
 //    leerDatosXlsxModulos(connection, xlsxModulos)
 
-//    val contra = getMd5DigestForPassword("")
-//    println(contra)
+    val contra = getMd5DigestForPassword("messi")
+    println(contra)
 
 
     connection.close()

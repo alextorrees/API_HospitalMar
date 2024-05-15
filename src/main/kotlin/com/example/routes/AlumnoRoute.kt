@@ -80,10 +80,10 @@ fun Route.AlumnoRouting() {
                     contrasenya = call.parameters["contrasenya"]!!
 
                     // Hashear la nueva contraseña
-                    val contrasenyaHasheada = getMd5DigestForPassword(contrasenya)
+//                    val contrasenyaHasheada = getMd5DigestForPassword(contrasenya)
 
                     // Actualizar la contraseña hasheada en la base de datos
-                    if (daoAlumno.updateContrasenya(idAlumno, contrasenyaHasheada)) {
+                    if (daoAlumno.updateContrasenya(idAlumno, contrasenya)) {
                         call.respondText("Se ha cambiado la contraseña correctamente", status = HttpStatusCode.OK)
                     } else {
                         call.respondText(
