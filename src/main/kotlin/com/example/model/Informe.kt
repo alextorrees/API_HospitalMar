@@ -9,7 +9,7 @@ import java.time.LocalDate
 
 @Serializable
 data class Informe(
-    val idInforme: Int,
+    val idInforme: Int?,
     val idAlumno: Int,
     val idModulo: Int,
     val idCompetencia: Int,

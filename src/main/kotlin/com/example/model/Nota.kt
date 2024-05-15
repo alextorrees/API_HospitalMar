@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.Table
 
 @Serializable
 data class Nota(
-    val idNota: Int,
+    val idNota: Int?,
     val idInforme: Int,
     val nota: Int,
     val comentario: String

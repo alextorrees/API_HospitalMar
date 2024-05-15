@@ -3,10 +3,8 @@ package com.example.dao
 import com.example.model.Informe
 import com.example.model.Infromes
 import com.example.model.Modulos
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class DAOInformeImpl: DAOInforme {
     private fun resultToRowInforme (row: ResultRow) = Informe(
@@ -28,6 +26,18 @@ class DAOInformeImpl: DAOInforme {
                     (Infromes.idModulo eq idModulo) and
                     (Infromes.idCompetencia eq idCompetencia)
         }.map(::resultToRowInforme)
+    }
+
+    override suspend fun insertInforme(informe: Informe) {
+        transaction {
+            Infromes.insert {
+                it[idAlumno] = informe.idAlumno
+                it[idModulo] = informe.idModulo
+                it[idCompetencia] = informe.idCompetencia
+                it[fechaGeneracion] = informe.fechaGeneracion
+                it[notaFinal] = informe.notaFinal
+            }
+        }
     }
 
 }

@@ -2,8 +2,10 @@ package com.example.dao
 
 import com.example.model.*
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class DAONotaImpl: DAONota {
     private fun resultToRowNota (row: ResultRow) = Nota(
@@ -23,6 +25,16 @@ class DAONotaImpl: DAONota {
         }.map(::resultToRowNota)
     }
 
+    override suspend fun insertNota(notaType: Nota) {
+        transaction {
+            Notas.insert {
+                it[idInforme] = notaType.idInforme
+                it[nota] = notaType.nota
+                it[comentario] = notaType.comentario
+
+            }
+        }
+    }
 }
 
 val daoNota: DAONota = DAONotaImpl().apply{}
