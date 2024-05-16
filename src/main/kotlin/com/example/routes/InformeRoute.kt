@@ -3,6 +3,7 @@ package com.example.routes
 import com.example.dao.informes.daoInforme
 import com.example.dao.informes.daoNota
 import com.example.model.informes.Informe
+import com.example.model.informes.InsertInforme
 import com.example.model.informes.Nota
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -83,8 +84,7 @@ fun Route.informeRouting() {
             val notaFinal = parameters["notafinal"]?.toIntOrNull()
 
             if (idAlumno != null && idModulo != null && idCompetencia != null && fechaGeneracion != null && notaFinal != null) {
-                val nuevoInforme = Informe(
-                    idInforme = null,
+                val nuevoInforme = InsertInforme(
                     idAlumno = idAlumno,
                     idModulo = idModulo,
                     idCompetencia = idCompetencia,

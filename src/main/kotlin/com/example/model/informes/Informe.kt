@@ -20,6 +20,16 @@ data class Informe(
     val notaFinal: Int
 )
 
+@Serializable
+data class InsertInforme(
+    val idAlumno: Int,
+    val idModulo: Int,
+    val idCompetencia: Int,
+    @Serializable(with = LocalDateSerializer::class)
+    val fechaGeneracion: LocalDate,
+    val notaFinal: Int
+)
+
 object Infromes: Table("informe") {
     val idInforme = integer("idinforme").autoIncrement()
     val idAlumno = integer("idalumno").references(Alumnos.idAlumno)

@@ -3,6 +3,7 @@ package com.example.dao.informes
 import com.example.dao.DataBaseConnection
 import com.example.model.informes.Informe
 import com.example.model.informes.Infromes
+import com.example.model.informes.InsertInforme
 import com.example.model.modulos.Modulos
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -51,7 +52,7 @@ class DAOInformeImpl: DAOInforme {
      * Inserta un nuevo informe en la base de datos.
      * @param informe Informe a insertar.
      */
-    override suspend fun insertInforme(informe: Informe) {
+    override suspend fun insertInforme(informe: InsertInforme) {
         transaction {
             Infromes.insert {
                 it[idAlumno] = informe.idAlumno
