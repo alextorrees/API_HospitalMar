@@ -52,7 +52,7 @@ class DAONotaImpl: DAONota {
             Notas.insert {
                 it[idInforme] = notaType.idInforme
                 it[nota] = notaType.nota
-                it[comentario] = notaType.comentario
+                it[comentario] = notaType.comentario.removeSurrounding("[", "]")
             }
         }
     }
