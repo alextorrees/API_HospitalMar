@@ -33,5 +33,29 @@ fun Route.profesorRouting() {
                 )
                 call.respond(profesor)
             }
+            put("/update/contrasenya/{idProfesor}/{contrasenya}") {
+                val idProfesor: Int
+                val contrasenya: String
+                try {
+                    idProfesor = call.parameters["idProfesor"]!!.toInt()
+                    contrasenya = call.parameters["contrasenya"]!!
+
+                    // Hashear la nueva contraseña
+//                    val contrasenyaHasheada = getMd5DigestForPassword(contrasenya)
+
+                    // Actualizar la contraseña hasheada en la base de datos
+                    if (daoAlumno.updateContrasenya(idProfesor, contrasenya)) {
+                        call.respondText("Se ha cambiado la contraseña correctamente", status = HttpStatusCode.OK)
+                    } else {
+                        call.respondText(
+                            "No se ha podido actualizar la contraseña",
+                            status = HttpStatusCode.InternalServerError
+                        )
+                    }
+
+                } catch (e: NumberFormatException) {
+                    call.respondText("[ERROR] en el parámetro idAlumno.", status = HttpStatusCode.BadRequest)
+                }
+            }
         }
 }
