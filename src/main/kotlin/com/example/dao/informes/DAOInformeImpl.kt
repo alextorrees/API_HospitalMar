@@ -72,7 +72,7 @@ class DAOInformeImpl: DAOInforme {
         Infromes.slice(Infromes.idInforme.max())
             .selectAll()
             .singleOrNull()
-            ?.getOrNull(Infromes.idInforme.max()) // Obtener el valor o null si es nulo
+            ?.getOrNull<Int?>(Infromes.idInforme.max())
     }
 }
 
