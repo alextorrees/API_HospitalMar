@@ -80,7 +80,7 @@ fun Route.informeRouting() {
             val idAlumno = parameters["idalumno"]?.toIntOrNull()
             val idModulo = parameters["idmodulo"]?.toIntOrNull()
             val idCompetencia = parameters["idcompetencia"]?.toIntOrNull()
-            val fechaGeneracion = parameters["fechageneracion"]?.let { LocalDate.parse(it) }
+            val fechaGeneracion = parameters["fechageneracion"]
             val notaFinal = parameters["notafinal"]?.toIntOrNull()
 
             if (idAlumno != null && idModulo != null && idCompetencia != null && fechaGeneracion != null && notaFinal != null) {

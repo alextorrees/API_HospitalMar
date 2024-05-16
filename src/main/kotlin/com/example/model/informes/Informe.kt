@@ -15,8 +15,7 @@ data class Informe(
     val idAlumno: Int,
     val idModulo: Int,
     val idCompetencia: Int,
-    @Serializable(with = LocalDateSerializer::class)
-    val fechaGeneracion: LocalDate,
+    val fechaGeneracion: String,
     val notaFinal: Int
 )
 
@@ -25,8 +24,7 @@ data class InsertInforme(
     val idAlumno: Int,
     val idModulo: Int,
     val idCompetencia: Int,
-    @Serializable(with = LocalDateSerializer::class)
-    val fechaGeneracion: LocalDate,
+    val fechaGeneracion: String,
     val notaFinal: Int
 )
 
@@ -35,6 +33,6 @@ object Infromes: Table("informe") {
     val idAlumno = integer("idalumno").references(Alumnos.idAlumno)
     val idModulo = integer("idmodulo").references(Modulos.idModulo)
     val idCompetencia = integer("idcompetencia").references(Competencias.idCompetencia)
-    val fechaGeneracion = date("fechageneracion")
+    val fechaGeneracion = varchar("fechageneracion", 50)
     val notaFinal = integer("notafinal")
 }
