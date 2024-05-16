@@ -2,12 +2,10 @@ package com.example.dao.usuarios.profesor
 
 
 import com.example.dao.DataBaseConnection.dbQuery
-import com.example.model.usuarios.Alumnos
 import com.example.model.usuarios.Profesor
 import com.example.model.usuarios.Profesores
 import com.example.zextras.getMd5DigestForPassword
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
@@ -49,6 +47,12 @@ class DAOProfesorImpl: DAOProfesor {
     override suspend fun selectAlumnoPorIdentificador(identificador: String): Profesor? = dbQuery {
         Profesores.select { Profesores.identificador eq identificador }.map(::resultToRowProfesor).singleOrNull()
     }
+    /**
+     * Actualiza la contraseña de un profesor.
+     * @param idProfesor Identificador del profesor.
+     * @param contrasenya Nueva contraseña del profesor.
+     * @return true si la actualización fue exitosa, false si falló.
+     */
     override suspend fun updateContrasenyaProfesor(idProfesor: Int, contrasenya: String): Boolean = dbQuery {
         val contrasenyaEncriptada = getMd5DigestForPassword(contrasenya) // Encriptar la nueva contraseña
         Profesores.update({ Profesores.idProfesor eq idProfesor }) {
