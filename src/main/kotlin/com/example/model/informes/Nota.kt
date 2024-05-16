@@ -9,7 +9,8 @@ data class Nota(
     val idNota: Int?,
     val idInforme: Int,
     val nota: Int,
-    val comentario: String
+    val comentario: String,
+    val orden: Int
 )
 
 
@@ -17,7 +18,8 @@ data class Nota(
 data class InsertNota(
     val idInforme: Int,
     val nota: Int,
-    val comentario: String
+    val comentario: String,
+    val orden: Int
 )
 
 object Notas: Table("nota") {
@@ -25,5 +27,6 @@ object Notas: Table("nota") {
     val idInforme = integer("idinforme").references(Infromes.idInforme)
     val nota = Infromes.integer("nota")
     val comentario = varchar("comentario", 1000)
+    val orden = integer("orden")
 }
 

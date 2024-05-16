@@ -21,7 +21,8 @@ class DAONotaImpl: DAONota {
         idNota = row[Notas.idNota],
         idInforme = row[Notas.idInforme],
         nota = row[Notas.nota],
-        comentario = row[Notas.comentario]
+        comentario = row[Notas.comentario],
+        orden = row[Notas.orden]
     )
 
     /**
@@ -53,6 +54,7 @@ class DAONotaImpl: DAONota {
                 it[idInforme] = notaType.idInforme
                 it[nota] = notaType.nota
                 it[comentario] = notaType.comentario.removeSurrounding("[", "]")
+                it[orden] = notaType.orden
             }
         }
     }
