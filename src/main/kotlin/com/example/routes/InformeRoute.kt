@@ -76,21 +76,9 @@ fun Route.informeRouting() {
          * Insertar un nuevo informe.
          */
         post("/insertar") {
-            val parameters = call.receiveParameters()
-            val idAlumno = parameters["idalumno"]?.toIntOrNull()
-            val idModulo = parameters["idmodulo"]?.toIntOrNull()
-            val idCompetencia = parameters["idcompetencia"]?.toIntOrNull()
-            val fechaGeneracion = parameters["fechageneracion"]
-            val notaFinal = parameters["notafinal"]?.toIntOrNull()
+            var nuevoInforme = call.receive<InsertInforme>()
 
-            if (idAlumno != null && idModulo != null && idCompetencia != null && fechaGeneracion != null && notaFinal != null) {
-                val nuevoInforme = InsertInforme(
-                    idAlumno = idAlumno,
-                    idModulo = idModulo,
-                    idCompetencia = idCompetencia,
-                    fechaGeneracion = fechaGeneracion,
-                    notaFinal = notaFinal
-                )
+            if (nuevoInforme != null) {
                 daoInforme.insertInforme(nuevoInforme)
                 call.respondText("Informe insertado correctamente", status = HttpStatusCode.Created)
             } else {
