@@ -41,7 +41,7 @@ Proporcionaria una visió del progrés personal de l'alumne en diferents àrees 
 - `/InformeRoute`: Gestió dels informes per generar o generats.
 
 ## Licencia
-[MIT License]()
+[MIT License](https://github.com/alextorrees/API_HospitalMar/blob/main/MIT%20License)
 
 # FrontEnd
 [Accés al FrontEnd](https://github.com/DReino03/HospitalMar)
