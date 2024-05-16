@@ -4,6 +4,7 @@ import com.example.dao.informes.daoInforme
 import com.example.dao.informes.daoNota
 import com.example.model.informes.Informe
 import com.example.model.informes.InsertInforme
+import com.example.model.informes.InsertNota
 import com.example.model.informes.Nota
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -76,7 +77,7 @@ fun Route.informeRouting() {
          * Insertar un nuevo informe.
          */
         post("/insertar") {
-            var nuevoInforme = call.receive<InsertInforme>()
+            val nuevoInforme = call.receive<InsertInforme>()
 
             if (nuevoInforme != null) {
                 daoInforme.insertInforme(nuevoInforme)
@@ -89,19 +90,9 @@ fun Route.informeRouting() {
          * Insertar una nueva nota.
          */
         post("/insertar/nota") {
-            val  parameters = call.receiveParameters()
-            val idInforme = parameters["idinforme"]?.toIntOrNull()
-            val nota = parameters["nota"]?.toIntOrNull()
-            val comentario = parameters["comentario"]
+            val nuevaNota = call.receive<InsertNota>()
 
-            if (idInforme != null && nota != null && comentario != null){
-                val nuevaNota = Nota(
-                    idNota = null,
-                    idInforme = idInforme,
-                    nota = nota,
-                    comentario = comentario
-                )
-
+            if (nuevaNota != null){
                 daoNota.insertNota(nuevaNota)
                 call.respondText("Nota insertada correctamente", status = HttpStatusCode.Created)
             }else{

@@ -12,9 +12,18 @@ data class Nota(
     val comentario: String
 )
 
+
+@Serializable
+data class InsertNota(
+    val idInforme: Int,
+    val nota: Int,
+    val comentario: String
+)
+
 object Notas: Table("nota") {
     val idNota = integer("idnota").autoIncrement()
     val idInforme = integer("idinforme").references(Infromes.idInforme)
     val nota = Infromes.integer("nota")
     val comentario = varchar("comentario", 1000)
 }
+

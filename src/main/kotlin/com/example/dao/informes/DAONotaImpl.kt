@@ -1,6 +1,7 @@
 package com.example.dao.informes
 
 import com.example.dao.DataBaseConnection
+import com.example.model.informes.InsertNota
 import com.example.model.informes.Nota
 import com.example.model.informes.Notas
 import org.jetbrains.exposed.sql.ResultRow
@@ -46,7 +47,7 @@ class DAONotaImpl: DAONota {
      * Inserta una nueva nota en la base de datos.
      * @param notaType Nota a insertar.
      */
-    override suspend fun insertNota(notaType: Nota) {
+    override suspend fun insertNota(notaType: InsertNota) {
         transaction {
             Notas.insert {
                 it[idInforme] = notaType.idInforme
