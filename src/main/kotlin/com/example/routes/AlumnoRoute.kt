@@ -1,17 +1,18 @@
 package com.example.routes
 
-import com.example.dao.evaluaciones.daoEvaluacionAlumno
-import com.example.dao.evaluaciones.evaluacionProfesor.daoEvaluacionProfesor
+
 import com.example.dao.usuarios.alumno.daoAlumno
-import com.example.getMd5DigestForPassword
+import com.example.zextras.getMd5DigestForPassword
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.alumnoRouting() {
-//   authenticate("myAuth"){
         route("/alumno") {
+            /**
+             * Obtener todos los alumnos.
+             */
             get {
                 val alumnoList = daoAlumno.allAlumno()
                 if (alumnoList.isNotEmpty()) {
@@ -20,6 +21,9 @@ fun Route.alumnoRouting() {
                     call.respondText("No se han encontrado usuarios.")
                 }
             }
+            /**
+             * Obtener un alumno por su identificador.
+             */
             get("/{identificador?}") {
                 val identificador = call.parameters["identificador"] ?: return@get call.respondText(
                     "Identificador incorrecto",
@@ -31,6 +35,9 @@ fun Route.alumnoRouting() {
                 )
                 call.respond(alumno)
             }
+            /**
+             *  Obtener los alumnos asociados a un profesor por su ID.
+             */
             get("/profesor/{idProfesor}/alumnos") {
                 val idProfesor = call.parameters["idProfesor"]?.toIntOrNull()
                 if (idProfesor != null) {
@@ -44,33 +51,9 @@ fun Route.alumnoRouting() {
                     call.respondText("El parámetro idProfesor es inválido.")
                 }
             }
-
-            get("/evaluacionesPorAlumno/{idAlumno}/{fechaInicio}/{fechaFin}") {
-                val idAlumno =
-                    call.parameters["idAlumno"]?.toIntOrNull() ?: throw IllegalArgumentException("ID de alumno inválido")
-                val fechaInicio =
-                    call.parameters["fechaInicio"] ?: throw IllegalArgumentException("Falta la fecha de inicio")
-                val fechaFin = call.parameters["fechaFin"] ?: throw IllegalArgumentException("Falta la fecha de fin")
-
-                val evaluaciones = daoEvaluacionAlumno.selectEvaluacionesPorAlumno(idAlumno, fechaInicio, fechaFin)
-                call.respond(HttpStatusCode.OK, evaluaciones)
-            }
-
-            get("/evaluacionProfesor/{idAlumno}") {
-                val idAlumno = call.parameters["idAlumno"]?.toIntOrNull()
-                if (idAlumno != null){
-                    val evaluacioneProfesorList = daoEvaluacionProfesor.selectEvaluacionesProfesor(idAlumno)
-
-                    if (evaluacioneProfesorList.isNotEmpty()){
-                        call.respond(evaluacioneProfesorList)
-                    }else{
-                        call.respondText("No se han encontrado evaluaciones del profesor para el alumno con id $idAlumno.")
-                    }
-                }else{
-                    call.respondText("El parámetro idAlumno es inválido.")
-                }
-            }
-
+            /**
+             * Actualizar la contraseña de un alumno.
+             */
             put("/update/contrasenya/{idAlumno}/{contrasenya}") {
                 val idAlumno: Int
                 val contrasenya: String
@@ -95,18 +78,15 @@ fun Route.alumnoRouting() {
                     call.respondText("[ERROR] en el parámetro idAlumno.", status = HttpStatusCode.BadRequest)
                 }
             }
-
+            /**
+             * Eliminar un alumno por su ID
+             */
             delete("({idalumno?})") {
                 val idAlumno = call.parameters["idalumno"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-                val alumno = daoAlumno.alumno(idAlumno.toInt()) ?: return@delete call.respondText(
-                    "No hay ningun jugador con id $idAlumno",
-                    status = HttpStatusCode.NotFound
-                )
                 if (daoAlumno.deleteAlumno(idAlumno.toInt())) {
                     call.respondText("Jugador borrado correctamente", status = HttpStatusCode.Accepted)
                 }
             }
         }
-//   }
 }
 

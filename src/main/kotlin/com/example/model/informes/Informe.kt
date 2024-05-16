@@ -1,11 +1,13 @@
-package com.example.model
+package com.example.model.informes
 
+import com.example.model.competencias.Competencias
+import com.example.model.LocalDateSerializer
+import com.example.model.modulos.Modulos
 import com.example.model.usuarios.Alumnos
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.date
 import java.time.LocalDate
-
 
 @Serializable
 data class Informe(
@@ -17,7 +19,6 @@ data class Informe(
     val fechaGeneracion: LocalDate,
     val notaFinal: Int
 )
-
 
 object Infromes: Table("informe") {
     val idInforme = integer("idinforme").autoIncrement()

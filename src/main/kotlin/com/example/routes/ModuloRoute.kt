@@ -1,13 +1,15 @@
 package com.example.routes
 
-import com.example.dao.daoModulo
+import com.example.dao.modulos.daoModulo
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.moduloRouting() {
-//    authenticate("myAuth"){
         route("/modulo") {
+            /**
+             * Obtener todos los módulos.
+             */
             get {
                 val moduloList = daoModulo.selectAllModuls()
                 if (moduloList.isNotEmpty()) {
@@ -16,6 +18,9 @@ fun Route.moduloRouting() {
                     call.respondText("No se han encontrado modulos.")
                 }
             }
+            /**
+             * Maneja las solicitudes de búsqueda de módulos por etiqueta.
+             */
             get("/{etiqueta?}"){
                 val etiqueta = call.parameters["etiqueta"]
 
@@ -31,5 +36,4 @@ fun Route.moduloRouting() {
                 }
             }
         }
-//    }
 }

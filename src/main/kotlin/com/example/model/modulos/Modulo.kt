@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.model.modulos
 
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table
@@ -13,8 +13,6 @@ data class Modulo(
     val numModulo: String,
     val nombreModulo: String
 )
-
-
 
 object Modulos: Table("modulo"){
     val idModulo = integer("idmodulo").autoIncrement()

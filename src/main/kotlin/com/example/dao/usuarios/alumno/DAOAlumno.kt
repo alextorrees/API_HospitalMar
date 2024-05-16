@@ -7,10 +7,7 @@ interface DAOAlumno {
     suspend fun alumno(idAlumno: Int): Alumno?
     suspend fun selectAlumnoPorIdentificador(identificador: String): Alumno?
     suspend fun selectAlumnoPorProfesor(idProfesor: Int): List<Alumno>
-    suspend fun insertNuevoAlumno(nombre: String, apellidos: String, correo: String, identificador: String, etiqueta: String, especialidad: String, grupos: String, contrasenya: String, idProfesor: Int): Alumno?
     suspend fun updateContrasenya(idAlumno: Int, contrasenya: String): Boolean
     suspend fun deleteAlumno(idAlumno: Int): Boolean
-
-    suspend fun selectJoin(): List<Alumno>
 }
 

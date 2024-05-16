@@ -1,6 +1,9 @@
 package com.example.plugins
 
-import com.example.model.*
+import com.example.model.digests.DigestProfesorTable
+import com.example.model.digests.DigestUserTable
+import com.example.model.digests.profesorTable
+import com.example.model.digests.userTable
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 

@@ -1,6 +1,6 @@
-package com.example.dao
+package com.example.dao.competencias
 
-import com.example.model.Competencia
+import com.example.model.competencias.Competencia
 
 
 interface DAOCompetencia {

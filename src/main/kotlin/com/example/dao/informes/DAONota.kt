@@ -1,6 +1,6 @@
-package com.example.dao
+package com.example.dao.informes
 
-import com.example.model.Nota
+import com.example.model.informes.Nota
 
 interface DAONota {
     suspend fun selectAllNotas(): List<Nota>

@@ -1,9 +1,7 @@
-package com.example.model
+package com.example.model.digests
 
-import com.example.dao.usuarios.alumno.daoAlumno
 import com.example.dao.usuarios.profesor.daoProfesor
 import io.ktor.server.auth.*
-import java.security.MessageDigest
 
 data class DigestProfesorTable(val userName: String, val realm: String) : Principal
 

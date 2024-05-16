@@ -1,6 +1,7 @@
 package com.example.routes
 
-import com.example.model.*
+import com.example.model.digests.uploadAlumno
+import com.example.model.digests.uploadProfesor
 import com.example.model.usuarios.Alumno
 import com.example.model.usuarios.Profesor
 import io.ktor.http.*
@@ -12,6 +13,9 @@ import io.ktor.server.routing.*
 
 fun Route.loginRoute(){
     route("user"){
+        /**
+         * Maneja las solicitudes de inicio de sesión para alumnos.
+         */
         post("/login/alumno") {
             val alumno = call.receive<Alumno>()
             val userTable = uploadAlumno()
@@ -24,6 +28,9 @@ fun Route.loginRoute(){
                 call.respondText("Login incorrecte", status = HttpStatusCode.Conflict)
             }
         }
+        /**
+         * Maneja las solicitudes de inicio de sesión para profesores.
+         */
         post("/login/profesor") {
             val profesor = call.receive<Profesor>()
             val profesorTable = uploadProfesor()

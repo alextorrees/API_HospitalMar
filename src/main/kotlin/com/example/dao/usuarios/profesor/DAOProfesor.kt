@@ -1,6 +1,5 @@
 package com.example.dao.usuarios.profesor
 
-import com.example.model.usuarios.Alumno
 import com.example.model.usuarios.Profesor
 
 interface DAOProfesor {

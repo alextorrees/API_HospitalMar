@@ -26,6 +26,6 @@ fun Application.module() {
         allowMethod(HttpMethod.Delete)
         allowHeader("Content-Type")
         allowHeader("Authorization")
-        anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+        anyHost()
     }
 }

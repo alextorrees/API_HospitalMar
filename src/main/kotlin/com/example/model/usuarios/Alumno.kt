@@ -1,9 +1,7 @@
 package com.example.model.usuarios
 
-import com.example.model.Modulos
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table
-
 
 @Serializable
 data class Alumno (

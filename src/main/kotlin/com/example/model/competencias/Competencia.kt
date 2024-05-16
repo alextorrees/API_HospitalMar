@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.model.competencias
 
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table

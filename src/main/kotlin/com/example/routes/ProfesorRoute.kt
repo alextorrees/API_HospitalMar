@@ -7,8 +7,10 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.profesorRouting() {
-//    authenticate("myAuthProf") {
         route("/profesor") {
+            /**
+             * Manejar la solicitud para obtener todos los profesores
+             */
             get {
                 val profesorList = daoProfesor.allProfesor()
                 if (profesorList.isNotEmpty()) {
@@ -17,6 +19,9 @@ fun Route.profesorRouting() {
                     call.respondText("No se han encontrado usuarios.")
                 }
             }
+            /**
+             * Manejar la solicitud para obtener un profesor por identificador
+             */
             get("/{identificador?}") {
                 val identificador = call.parameters["identificador"] ?: return@get call.respondText(
                     "Identificador incorrecto",
@@ -29,5 +34,4 @@ fun Route.profesorRouting() {
                 call.respond(profesor)
             }
         }
-//    }
 }

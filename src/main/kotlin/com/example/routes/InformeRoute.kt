@@ -1,9 +1,9 @@
 package com.example.routes
 
-import com.example.dao.daoInforme
-import com.example.dao.daoNota
-import com.example.model.Informe
-import com.example.model.Nota
+import com.example.dao.informes.daoInforme
+import com.example.dao.informes.daoNota
+import com.example.model.informes.Informe
+import com.example.model.informes.Nota
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -12,8 +12,10 @@ import io.ktor.server.routing.*
 import java.time.LocalDate
 
 fun Route.informeRouting() {
-//    authenticate("myAuth"){
     route("/informe") {
+        /**
+         * Obtener todos los informes.
+         */
         get {
             val informeList = daoInforme.selectAllInformes()
             if (informeList.isNotEmpty()) {
@@ -22,6 +24,9 @@ fun Route.informeRouting() {
                 call.respondText("No se han encontrado informes.")
             }
         }
+        /**
+         * Obtener informes por id de alumno, id de módulo y id de competencia.
+         */
         get("/{idalumno?}/{idmodulo?}/{idcompetencia?}") {
             val idalumno = call.parameters["idalumno"]?.toIntOrNull()
             val idmodulo = call.parameters["idmodulo"]?.toIntOrNull()
@@ -38,6 +43,9 @@ fun Route.informeRouting() {
                 call.respondText("Los parámetros són inválidos")
             }
         }
+        /**
+         * Obtener notas por id de informe.
+         */
         get("/notas/{idinforme?}") {
             val idinforme = call.parameters["idinforme"]?.toIntOrNull()
 
@@ -52,7 +60,20 @@ fun Route.informeRouting() {
                 call.respondText("El parámetro idinforme es inválido")
             }
         }
-
+        /**
+         * Maneja las solicitudes para obtener el último ID insertado en la tabla de informes.
+         */
+        get("/ultimoIdInforme") {
+            val ultimoId = daoInforme.selectUltimoId()
+            if (ultimoId != null) {
+                call.respondText(ultimoId.toString())
+            } else {
+                call.respondText("No se ha podido obtener el último ID insertado", status = HttpStatusCode.InternalServerError)
+            }
+        }
+        /**
+         * Insertar un nuevo informe.
+         */
         post("/insertar") {
             val parameters = call.receiveParameters()
             val idAlumno = parameters["idalumno"]?.toIntOrNull()
@@ -76,7 +97,9 @@ fun Route.informeRouting() {
                 call.respondText("Parámetros inválidos para insertar un informe", status = HttpStatusCode.BadRequest)
             }
         }
-
+        /**
+         * Insertar una nueva nota.
+         */
         post("/insertar/nota") {
             val  parameters = call.receiveParameters()
             val idInforme = parameters["idinforme"]?.toIntOrNull()
@@ -98,6 +121,5 @@ fun Route.informeRouting() {
             }
         }
     }
-//    }
 }
 

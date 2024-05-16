@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.model.digests
 
 import com.example.dao.usuarios.alumno.daoAlumno
 import io.ktor.server.auth.*
