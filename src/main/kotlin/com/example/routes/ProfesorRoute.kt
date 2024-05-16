@@ -1,5 +1,6 @@
 package com.example.routes
 
+import com.example.dao.usuarios.alumno.daoAlumno
 import com.example.dao.usuarios.profesor.daoProfesor
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -44,7 +45,7 @@ fun Route.profesorRouting() {
 //                    val contrasenyaHasheada = getMd5DigestForPassword(contrasenya)
 
                     // Actualizar la contraseña hasheada en la base de datos
-                    if (daoAlumno.updateContrasenya(idProfesor, contrasenya)) {
+                    if (daoProfesor.updateContrasenyaProfesor(idProfesor, contrasenya)) {
                         call.respondText("Se ha cambiado la contraseña correctamente", status = HttpStatusCode.OK)
                     } else {
                         call.respondText(
