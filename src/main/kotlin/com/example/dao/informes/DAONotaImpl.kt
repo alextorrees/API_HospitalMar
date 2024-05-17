@@ -44,6 +44,7 @@ class DAONotaImpl: DAONota {
         }.map(::resultToRowNota)
     }
 
+
     /**
      * Inserta una nueva nota en la base de datos.
      * @param notaType Nota a insertar.

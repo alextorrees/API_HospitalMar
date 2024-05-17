@@ -25,7 +25,7 @@ data class InsertNota(
 object Notas: Table("nota") {
     val idNota = integer("idnota").autoIncrement()
     val idInforme = integer("idinforme").references(Infromes.idInforme)
-    val nota = Infromes.integer("nota")
+    val nota = integer("nota")
     val comentario = varchar("comentario", 1000)
     val orden = integer("orden")
 }

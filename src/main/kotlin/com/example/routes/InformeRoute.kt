@@ -53,8 +53,11 @@ fun Route.informeRouting() {
 
             if (idinforme != null){
                 val notasList = daoNota.selectNotasPorId(idinforme)
+                println("bbb ${notasList.size}")
+
                 if (notasList.isNotEmpty()){
                     call.respond(notasList)
+                    println("AAAA ${notasList.size}")
                 }else{
                  call.respondText("No se han encontrado notas con $idinforme")
                 }

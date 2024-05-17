@@ -39,14 +39,20 @@ class DAOInformeImpl: DAOInforme {
      * @param idCompetencia Identificador de la competencia.
      * @return Lista de informes que coinciden con los criterios de búsqueda.
      */
-    override suspend fun selectInformePorId(idAlumno: Int, idModulo: Int, idCompetencia: Int): List<Informe> =
-        DataBaseConnection.dbQuery {
-            Infromes.select {
-                (Infromes.idAlumno eq idAlumno) and
-                        (Infromes.idModulo eq idModulo) and
-                        (Infromes.idCompetencia eq idCompetencia)
-            }.map(::resultToRowInforme)
+    override suspend fun selectInformePorId(idAlumno: Int, idModulo: Int, idCompetencia: Int): List<Informe> {
+        return transaction {
+            try {
+                Infromes.select {
+                    (Infromes.idAlumno eq idAlumno) and
+                            (Infromes.idModulo eq idModulo) and
+                            (Infromes.idCompetencia eq idCompetencia)
+                }.map(::resultToRowInforme)
+            } catch (e: Exception) {
+                // Manejar la excepción según sea necesario, por ejemplo, registrándola o lanzándola de nuevo
+                emptyList()
+            }
         }
+    }
 
     /**
      * Inserta un nuevo informe en la base de datos.
